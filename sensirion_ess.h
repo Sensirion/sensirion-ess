@@ -57,7 +57,6 @@ public:
     const char* getError() const;
 
     void setLedRYG(int r, int y, int g);
-    void setLedAutoSync(bool autoSync);
 
     int remainingWaitTimeMS();
 
@@ -104,8 +103,6 @@ private:
     float mHumidity    = -1;
     float mTVOC        = -1;
     float mECO2        = -1;
-
-    bool mLedAutoSync  = true;
 
     int mProductType       = 0;
     int mFeatureSetVersion = 0;
