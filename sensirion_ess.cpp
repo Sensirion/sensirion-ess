@@ -227,13 +227,12 @@ int SensirionESS::initSGP()
     return ret;
 }
 
+//////////////////////////////////////////////////////////////////////////////
+// getter for values read earlier
 bool SensirionESS::isInitialized()
 {
     return mInitialized;
 }
-
-//////////////////////////////////////////////////////////////////////////////
-// getter for values read earlier
 
 float SensirionESS::getTemperature() const
 {
