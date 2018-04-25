@@ -169,18 +169,6 @@ int SensirionESS::measureIAQ()
       mECO2 = (mDataBuf[3] << 8) | mDataBuf[4];
     }
 
-
-    if (mLedAutoSync) {
-        if (mTVOC >= SGP_RED_THRESHOLD) {
-            setLedRYGInt(1, 0, 0);
-        } else if (mTVOC >= SGP_YEL_THRESHOLD) {
-            setLedRYGInt(0, 1, 0);
-        } else {
-            setLedRYGInt(0, 0, 1);
-        }
-
-    }
-
     return 0;
 }
 
@@ -269,20 +257,9 @@ float SensirionESS::getECO2() const
 
 void SensirionESS::setLedRYG(int r, int y, int g)
 {
-    mLedAutoSync = false;
-    setLedRYGInt(r, y, g);
-}
-
-void SensirionESS::setLedRYGInt(int r, int y, int g)
-{
     digitalWrite(LED_RED, r ? HIGH : LOW);
     digitalWrite(LED_YEL, y ? HIGH : LOW);
     digitalWrite(LED_GRN, g ? HIGH : LOW);
-}
-
-void SensirionESS::setLedAutoSync(bool autoSync)
-{
-    mLedAutoSync = autoSync;
 }
 
 //////////////////////////////////////////////////////////////////////////////
