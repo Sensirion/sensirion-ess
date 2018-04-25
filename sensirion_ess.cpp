@@ -267,7 +267,7 @@ void SensirionESS::setLedRYG(int r, int y, int g)
 
 inline void SensirionESS::setError(const char* error)
 {
-    strncpy(mErrorBuf, error, ERROR_BUF_LENGTH);
+    strlcpy(mErrorBuf, error, ERROR_BUF_LENGTH);
 }
 
 const char* SensirionESS::getError() const
