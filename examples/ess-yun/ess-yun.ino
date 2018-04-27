@@ -1,3 +1,14 @@
+// this example sends data from the ESS to dweet.io, which can then be visualized
+// by services like freeboard.io
+//
+// For this to work, update the <THING> in the DWEET_URL below
+//
+// This also expects the Yun to have an internet connection, either through
+// Wifi or Ethernet
+//
+// The data is sent asynchronously to make sure we can keep up with the
+// SGP readout rate, even if we hit an issue on the upload
+
 #include <sensirion_ess.h>
 
 #include <HttpClient.h>
@@ -5,21 +16,26 @@
 SensirionESS ess;
 HttpClient client;
 
-// ADJUST HERE:
+// ADJUST <THING> HERE with your dweet.io thing:
 const char* DWEET_URL = "http://dweet.io/dweet/for/<THING>";
 
+// Let's limit dweet requests to 0.5 Hz
 long lastDweetTimestamp;
 const int DWEET_THRESHOLD = 2000;
 
+// We'll set a CO2 threshold for the human precense detection
 const int CO2_THRESHOLD = 1000;
 
+// for the SGP, the first n values are always default values; we'll count
+// samples, and then signal to the dashboard that we can expect measured
+// data from now on
 int sampleCount = 0;
 const int INIT_SAMPLE_THRESHOLD = 15;
 
+// helper function to create the dweet.io URL
 String createRequest(float tvoc, float eco2, float temp, float rh,
     int initState, int perspres)
 {
-
   String s = DWEET_URL;
   s += "?temp=";      s += temp;
   s += "&rh=";        s += rh;
@@ -42,9 +58,6 @@ void setup()
   digitalWrite(13, HIGH);
   SerialUSB.println("done!");
 
-  // First step is to initialize the sensors; this should only fail if
-  // the board is defect, or the connection isn't working. Since there's nothing
-  // we can do if this fails, the code will loop forever if an error is detected
   if (ess.initSensors() != 0) {
       SerialUSB.print("Error while initializing sensors: ");
       SerialUSB.print(ess.getError());
@@ -54,18 +67,7 @@ void setup()
       }
   }
 
-  // The SGP sensor has product type information and feature set stored
-  // the following code reads it out, and prints it to the SerialUSB console.
-  // This is purely to demo the function calls, and is not necessary to operate
-  // the sensor
-  int type = ess.getProductType();
-  int fsVersion = ess.getFeatureSetVersion();
-
-  SerialUSB.print((type == SensirionESS::PRODUCT_TYPE_SGP30) ? "SGP30" : "SGPC3");
-  SerialUSB.print(" detected, running feature set version ");
-  SerialUSB.println(fsVersion);
-
-  lastDweetTimestamp = millis();
+  lastDweetTimestamp = millis() - DWEET_THRESHOLD;
 }
 
 void loop() {
