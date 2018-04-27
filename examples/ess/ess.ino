@@ -36,19 +36,10 @@ void setup()
 void loop() {
   float temp, rh, tvoc, eco2 = -1;
 
-  // we're starting by reading the humidity-temperature sensor; on success,
-  // we'll store the result in local variables rh and temp; if the communication
-  // with the sensor fails, rh and temp will be -1
-  if (ess.measureRHT() != 0) {
-    Serial.print("Error while measuring RHT: ");
-    Serial.print(ess.getError());
-    Serial.print("\n");
-  } else {
-    temp = ess.getTemperature();
-    rh = ess.getHumidity();
-  }
-
-  // next, we'll trigger a measurement of the VOC sensor
+  // we'll start by triggering a measurement of the VOC/CO2 sensor;
+  // it's important to do this first to make sure sleep timing is
+  // correct. If the command succeeds, the local variables will
+  // be set to the values we just read; if it fails, they'll be -1
   if (ess.measureIAQ() != 0) {
     Serial.print("Error while measuring IAQ: ");
     Serial.print(ess.getError());
@@ -56,6 +47,16 @@ void loop() {
   } else {
     tvoc = ess.getTVOC();
     eco2 = ess.getECO2(); // SGP30 only
+  }
+
+  // next, we'll trigger the humidity and temperature measurement
+  if (ess.measureRHT() != 0) {
+    Serial.print("Error while measuring RHT: ");
+    Serial.print(ess.getError());
+    Serial.print("\n");
+  } else {
+    temp = ess.getTemperature();
+    rh = ess.getHumidity();
   }
 
   // finally, let's print those to the serial console
