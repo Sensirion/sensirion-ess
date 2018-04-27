@@ -12,7 +12,6 @@ void setup()
   // First step is to initialize the sensors; this should only fail if
   // the board is defect, or the connection isn't working. Since there's nothing
   // we can do if this fails, the code will loop forever if an error is detected
-  }
   if (ess.initSensors() != 0) {
       Serial.print("Error while initializing sensors: ");
       Serial.print(ess.getError());
