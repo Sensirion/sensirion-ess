@@ -36,5 +36,37 @@ After that, check out the `led-demo` example, which explains how to control the 
 
 We've added a lot of comments to the `ess` example, so please check out the [source code](https://github.com/Sensirion/arduino-ess/blob/master/examples/ess/ess.ino) to learn more.
 
+
+Here's a minimal example without error checking for illustration purposes.
+In your demos, please use error checking as shown in the `ess` example!
+```c++
+#include <sensirion_ess.h>
+
+SensirionESS ess;
+
+void setup()
+{
+  Serial.begin(9600);
+  delay(1000); // let console settle
+
+  ess.initSensors();
+}
+
+void loop() {
+  ess.measureIAQ(); // measure first to ensure proper timing
+  ess.measureRHT();
+
+  Serial.print(ess.getTemperature());  Serial.print(" ");
+  Serial.print(ess.getHumidity());     Serial.print(" ");
+  Serial.print(ess.getTVOC());         Serial.print(" ");
+  if (ess.getProductType() == SensirionESS::PRODUCT_TYPE_SGP30) {
+    Serial.print(ess.getECO2());
+  }
+  Serial.print("\n");
+
+  delay(ess.remainingWaitTimeMS());
+}
+```
+
 ### Feedback
 If you have questions or suggestions, please submit an issue via github.
