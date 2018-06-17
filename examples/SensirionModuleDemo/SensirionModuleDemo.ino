@@ -1,8 +1,8 @@
-// we need to include sensirion_ess.h
-#include <sensirion_ess.h>
+// we need to include sensirion_mzbadge.h
+#include <sensirion_mzbadge.h>
 
-//  Create an instance of SensirionESS
-SensirionESS ess;
+//  Create an instance of SensirionMZBADGE
+SensirionMZBADGE sendorModule;
 
 void setup()
 {
@@ -12,9 +12,9 @@ void setup()
   // First step is to initialize the sensors; this should only fail if
   // the board is defect, or the connection isn't working. Since there's nothing
   // we can do if this fails, the code will loop forever if an error is detected
-  if (ess.initSensors() != 0) {
+  if (sendorModule.initSensors() != 0) {
       Serial.print("Error while initializing sensors: ");
-      Serial.print(ess.getError());
+      Serial.print(sendorModule.getError());
       Serial.print("\n");
       while (1) { // loop forever
         delay(1000);
@@ -25,10 +25,10 @@ void setup()
   // the following code reads it out, and prints it to the serial console.
   // This is purely to demo the function calls, and is not necessary to operate
   // the sensor
-  int type = ess.getProductType();
-  int fsVersion = ess.getFeatureSetVersion();
+  int type = sendorModule.getProductType();
+  int fsVersion = sendorModule.getFeatureSetVersion();
 
-  Serial.print((type == SensirionESS::PRODUCT_TYPE_SGP30) ? "SGP30" : "SGPC3");
+  Serial.print((type == SensirionMZBADGE::PRODUCT_TYPE_SGP30) ? "SGP30" : "SGPC3");
   Serial.print(" detected, running feature set version ");
   Serial.println(fsVersion);
 }
@@ -40,23 +40,23 @@ void loop() {
   // it's important to do this first to make sure sleep timing is
   // correct. If the command succeeds, the local variables will
   // be set to the values we just read; if it fails, they'll be -1
-  if (ess.measureIAQ() != 0) {
+  if (sendorModule.measureIAQ() != 0) {
     Serial.print("Error while measuring IAQ: ");
-    Serial.print(ess.getError());
+    Serial.print(sendorModule.getError());
     Serial.print("\n");
   } else {
-    tvoc = ess.getTVOC();
-    eco2 = ess.getECO2(); // SGP30 only
+    tvoc = sendorModule.getTVOC();
+    eco2 = sendorModule.getECO2(); // SGP30 only
   }
 
   // next, we'll trigger the humidity and temperature measurement
-  if (ess.measureRHT() != 0) {
+  if (sendorModule.measureRHT() != 0) {
     Serial.print("Error while measuring RHT: ");
-    Serial.print(ess.getError());
+    Serial.print(sendorModule.getError());
     Serial.print("\n");
   } else {
-    temp = ess.getTemperature();
-    rh = ess.getHumidity();
+    temp = sendorModule.getTemperature();
+    rh = sendorModule.getHumidity();
   }
 
   // finally, let's print those to the serial console
@@ -66,7 +66,7 @@ void loop() {
   Serial.print(" ");
   Serial.print(tvoc);
   Serial.print(" ");
-  if (ess.getProductType() == SensirionESS::PRODUCT_TYPE_SGP30) {
+  if (sendorModule.getProductType() == SensirionMZBADGE::PRODUCT_TYPE_SGP30) {
     Serial.print(eco2);
   }
 
@@ -74,5 +74,5 @@ void loop() {
 
   // and then, we'll use remainingWaitTimeMS() to ensure the correct
   // Measurement rate
-  delay(ess.remainingWaitTimeMS());
+  delay(sendorModule.remainingWaitTimeMS());
 }

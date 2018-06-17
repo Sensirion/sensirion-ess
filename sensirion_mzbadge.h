@@ -28,15 +28,17 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef SENSIRION_ESS
-#define SENSIRION_ESS
+/** this class has been taken from the arduino ESS code and adapted for the MakeZurich badge **/
+
+#ifndef SENSIRION_MZBADGE
+#define SENSIRION_MZBADGE
 
 #include <stdint.h>
 
-class SensirionESS
+class SensirionMZBADGE
 {
 public:
-    SensirionESS();
+    SensirionMZBADGE();
 
     int initSensors();
 
@@ -56,13 +58,7 @@ public:
 
     const char* getError() const;
 
-    void setLedRYG(int r, int y, int g);
-
     int remainingWaitTimeMS();
-
-    const static int LED_RED                = 9;
-    const static int LED_YEL                = 10;
-    const static int LED_GRN                = 11;
 
     const static int PRODUCT_TYPE_SGP30    = 0;
     const static int PRODUCT_TYPE_SGPC3    = 1;
@@ -76,8 +72,7 @@ private:
     int readFeatureSetInt();
     int measureRHTInt();
     int initSGP();
-    void setLedRYGInt(int r, int y, int g);
-
+    
     const static int ERROR_BUF_LENGTH       = 255;
     const static int CMD_LENGTH             = 2;
 
@@ -114,4 +109,4 @@ private:
     uint8_t mDataBuf[SHT_DATA_LENGTH]; // max(SHT_DATA_LENGTH, SGP_DATA_LENGTH)
 };
 
-#endif /* SENSIRION_ESS */
+#endif /* SENSIRION_MZBADGE */
