@@ -28,6 +28,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/** this class has been taken from the arduino ESS code and adapted for the MakeZurich badge **/
+
 /*
  * TODO:
  * - Baseline store/restore
@@ -40,18 +42,22 @@
 
 #include <string.h>
 
-#include "sensirion_ess.h"
+#include "sensirion_mzbadge.h"
 
-SensirionESS::SensirionESS()
+// Internal I2C bus where the sensor module is connected to
+#define SDA1 13  // GPIO35
+#define SCL1 0   // GPIO27
+
+SensirionMZBADGE::SensirionMZBADGE()
 {
 }
 
-int SensirionESS::initSensors()
+int SensirionMZBADGE::initSensors()
 {
-    Wire.begin();
+    Wire.begin(SDA1, SCL1);
 
     if (measureRHTInt() != 0) {
-        setError("Error communicating with SHTC1");
+        setError("Error communicating with SHTC3");
         return -1;
     }
 
@@ -60,10 +66,6 @@ int SensirionESS::initSensors()
         return -2;
     }
 
-    pinMode(LED_RED, OUTPUT);
-    pinMode(LED_YEL, OUTPUT);
-    pinMode(LED_GRN, OUTPUT);
-
     mInitialized = true;
     return 0;
 }
@@ -71,10 +73,10 @@ int SensirionESS::initSensors()
 //////////////////////////////////////////////////////////////////////////////
 // SHT
 
-int SensirionESS::measureRHT()
+int SensirionMZBADGE::measureRHT()
 {
     if (!mInitialized) {
-        setError("ESS not initialized");
+        setError("Sensor module not initialized");
         return -1;
     }
 
@@ -82,7 +84,7 @@ int SensirionESS::measureRHT()
     return 0;
 }
 
-int SensirionESS::measureRHTInt()
+int SensirionMZBADGE::measureRHTInt()
 {
     uint8_t cmd[CMD_LENGTH] = { 0x7C, 0xA2 };
 
@@ -118,20 +120,20 @@ int SensirionESS::measureRHTInt()
 //////////////////////////////////////////////////////////////////////////////
 // SGP
 
-int SensirionESS::getProductType() const
+int SensirionMZBADGE::getProductType() const
 {
     return mProductType;
 }
 
-int SensirionESS::getFeatureSetVersion() const
+int SensirionMZBADGE::getFeatureSetVersion() const
 {
     return mFeatureSetVersion;
 }
 
-int SensirionESS::measureIAQ()
+int SensirionMZBADGE::measureIAQ()
 {
     if (!mInitialized) {
-        setError("ESS not initialized");
+        setError("MZBADGE not initialized");
         return -1;
     }
 
@@ -173,7 +175,7 @@ int SensirionESS::measureIAQ()
     return 0;
 }
 
-int SensirionESS::readFeatureSetInt()
+int SensirionMZBADGE::readFeatureSetInt()
 {
     uint8_t cmd[CMD_LENGTH] = { 0x20, 0x2f };
 
@@ -205,7 +207,7 @@ int SensirionESS::readFeatureSetInt()
     return 0;
 }
 
-int SensirionESS::initSGP()
+int SensirionMZBADGE::initSGP()
 {
     int ret = readFeatureSetInt();
     // default: SGP30
@@ -230,47 +232,40 @@ int SensirionESS::initSGP()
 
 //////////////////////////////////////////////////////////////////////////////
 // getter for values read earlier
-bool SensirionESS::isInitialized()
+bool SensirionMZBADGE::isInitialized()
 {
     return mInitialized;
 }
 
-float SensirionESS::getTemperature() const
+float SensirionMZBADGE::getTemperature() const
 {
     return mTemperature;
 }
 
-float SensirionESS::getHumidity() const
+float SensirionMZBADGE::getHumidity() const
 {
     return mHumidity;
 }
 
-float SensirionESS::getTVOC() const
+float SensirionMZBADGE::getTVOC() const
 {
     return mTVOC;
 }
 
-float SensirionESS::getECO2() const
+float SensirionMZBADGE::getECO2() const
 {
     return mECO2;
-}
-
-void SensirionESS::setLedRYG(int r, int y, int g)
-{
-    digitalWrite(LED_RED, r ? HIGH : LOW);
-    digitalWrite(LED_YEL, y ? HIGH : LOW);
-    digitalWrite(LED_GRN, g ? HIGH : LOW);
 }
 
 //////////////////////////////////////////////////////////////////////////////
 // error handling
 
-inline void SensirionESS::setError(const char* error)
+inline void SensirionMZBADGE::setError(const char* error)
 {
     strlcpy(mErrorBuf, error, ERROR_BUF_LENGTH);
 }
 
-const char* SensirionESS::getError() const
+const char* SensirionMZBADGE::getError() const
 {
     return mErrorBuf;
 }
@@ -278,7 +273,7 @@ const char* SensirionESS::getError() const
 //////////////////////////////////////////////////////////////////////////////
 // helper
 
-int SensirionESS::remainingWaitTimeMS()
+int SensirionMZBADGE::remainingWaitTimeMS()
 {
     unsigned long deltaT = millis() - mSGPMeasurementTimestamp;
     if (deltaT > SGP_INTERMEASURE_DELAY) {
@@ -288,7 +283,7 @@ int SensirionESS::remainingWaitTimeMS()
     return (SGP_INTERMEASURE_DELAY - deltaT);
 }
 
-int8_t SensirionESS::i2c_read(uint8_t addr, uint8_t* data, uint16_t count)
+int8_t SensirionMZBADGE::i2c_read(uint8_t addr, uint8_t* data, uint16_t count)
 {
     Wire.requestFrom(addr, count);
     if (Wire.available() != count) {
@@ -300,7 +295,7 @@ int8_t SensirionESS::i2c_read(uint8_t addr, uint8_t* data, uint16_t count)
     return 0;
 }
 
-int8_t SensirionESS::i2c_write(uint8_t addr, const uint8_t* data, uint16_t count)
+int8_t SensirionMZBADGE::i2c_write(uint8_t addr, const uint8_t* data, uint16_t count)
 {
     Wire.beginTransmission(addr);
     for (int i = 0; i < count; ++i) {
@@ -314,7 +309,7 @@ int8_t SensirionESS::i2c_write(uint8_t addr, const uint8_t* data, uint16_t count
     return 0;
 }
 
-uint8_t SensirionESS::crc8(const uint8_t* data, uint8_t len)
+uint8_t SensirionMZBADGE::crc8(const uint8_t* data, uint8_t len)
 {
   // adapted from SHT21 sample code from http://www.sensirion.com/en/products/humidity-temperature/download-center/
 

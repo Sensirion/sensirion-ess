@@ -1,3 +1,9 @@
+# Arduino library for the sensirion module on the MakeZurich 2018 badge
+As a quick starting point, the ESS arduino library from sensirion has been forked and adapted to fit our board.
+Below you will find the original content of the README and you can see the forks source for the original code.
+
+
+
 ## Arduino library for Sensirion Environmental Sensor Shield
 
 This is an Arduino library for the Sensirion Environmental Sensor

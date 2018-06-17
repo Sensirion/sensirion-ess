@@ -6,7 +6,7 @@
 # Datatypes (KEYWORD1)
 #######################################
 
-SensirionESS	KEYWORD1
+SensirionMZBADGE	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
@@ -23,19 +23,11 @@ getFeatureSetVersion	KEYWORD2
 getTVOC	KEYWORD2
 getECO2	KEYWORD2
 getError	KEYWORD2
-setLedRYG	KEYWORD2
 remainingWaitTimeMS	KEYWORD2
 
 #######################################
 # Instances (KEYWORD2)
 #######################################
-
-#######################################
-# Constants (LITERAL1)
-#######################################
-LED_RED	LITERAL1
-LED_YEL	LITERAL1
-LED_GRN	LITERAL1
 
 PRODUCT_TYPE_SGP30	LITERAL1
 PRODUCT_TYPE_SGPC3	LITERAL1
