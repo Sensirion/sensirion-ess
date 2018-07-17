@@ -28,7 +28,7 @@ To use the ESS with an Arduino platform, simply align the pins of the shield wit
 #### Running the examples
 To understand how to use the library, the easiest way is to use the examples included in the library. To open an example, start the Arduino IDE, and select menu `"File" > "Examples" > "arduino-ess-v0.5.0" > "(name of the example to open)"`. Note that the version in "arduino-ess-v0.5.0" can differ if newer versions get released.
 
-We recommend to start with the `ess` example, as it shows how to initialize the sensor and read all the data.
+We recommend to start with the `ess` example, as it shows how to initialize the sensor and read all the data. So see the data, either use the "Serial monitor" or "Serial Plotter" in the Arduino IDE; both are available from the `Tools` menu.
 
 After that, check out the `led-demo` example, which explains how to control the LEDs on the ESS.
 
