@@ -68,5 +68,9 @@ void loop() {
 }
 ```
 
+### Schematics
+
+You can find the schematics for the ESS in the [ess-hardware-docs repository](https://github.com/winkj/ess-hardware-docs/blob/master/ESS_Schematic.PDF)
+
 ### Feedback
 If you have questions or suggestions, please submit an issue via github.
