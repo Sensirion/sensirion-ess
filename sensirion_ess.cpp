@@ -167,7 +167,7 @@ int SensirionESS::measureIAQ()
       }
       mTVOC = (uint16_t)(mDataBuf[3] << 8) | mDataBuf[4];
   } else {
-      mTVOC = (uint16_t)(mDataBuf[0] << 8) | mDataBuf[1];;
+      mTVOC = (uint16_t)(mDataBuf[0] << 8) | mDataBuf[1];
   }
 
     return 0;
