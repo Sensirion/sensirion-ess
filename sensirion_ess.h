@@ -51,8 +51,8 @@ public:
     int getProductType() const;
     int getFeatureSetVersion() const;
 
-    float getTVOC() const;
-    float getECO2() const; // SGP30 only
+    uint16_t getTVOC() const;
+    uint16_t getECO2() const; // SGP30 only
 
     const char* getError() const;
 
@@ -101,8 +101,8 @@ private:
 
     float mTemperature = -250;
     float mHumidity    = -1;
-    float mTVOC        = -1;
-    float mECO2        = -1;
+    uint16_t mTVOC        = 0;
+    uint16_t mECO2        = 0;
 
     int mProductType       = 0;
     int mFeatureSetVersion = 0;

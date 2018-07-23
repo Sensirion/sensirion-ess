@@ -160,14 +160,14 @@ int SensirionESS::measureIAQ()
 
     // SGPC3 only has TVOC; SGP30 sends [eco2, tvoc]
     if (mProductType == PRODUCT_TYPE_SGP30) {
-      mECO2 = (mDataBuf[0] << 8) | mDataBuf[1];
+      mECO2 = (uint16_t)(mDataBuf[0] << 8) | mDataBuf[1];
       if (crc8(mDataBuf+3, 2) != mDataBuf[5]) {
           setError("CRC mismatch");
           return -4;
       }
-      mTVOC = (mDataBuf[3] << 8) | mDataBuf[4];
+      mTVOC = (uint16_t)(mDataBuf[3] << 8) | mDataBuf[4];
   } else {
-      mTVOC = (mDataBuf[0] << 8) | mDataBuf[1];;
+      mTVOC = (uint16_t)(mDataBuf[0] << 8) | mDataBuf[1];;
   }
 
     return 0;
@@ -245,12 +245,12 @@ float SensirionESS::getHumidity() const
     return mHumidity;
 }
 
-float SensirionESS::getTVOC() const
+uint16_t SensirionESS::getTVOC() const
 {
     return mTVOC;
 }
 
-float SensirionESS::getECO2() const
+uint16_t SensirionESS::getECO2() const
 {
     return mECO2;
 }
