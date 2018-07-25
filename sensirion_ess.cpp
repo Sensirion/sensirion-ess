@@ -42,6 +42,16 @@
 
 #include "sensirion_ess.h"
 
+/*
+ * GPIOs for the LEDS are based around a standard Arduino footprint
+ * Let's enable them by default, unless we know we're on an unsupported
+ * platform
+ */
+#if !defined(ESP8266)
+#define ENABLE_LED_SUPPORT
+#endif /* ESP8266 */
+
+
 SensirionESS::SensirionESS()
 {
 }
@@ -60,9 +70,11 @@ int SensirionESS::initSensors()
         return -2;
     }
 
+#ifdef ENABLE_LED_SUPPORT
     pinMode(LED_RED, OUTPUT);
     pinMode(LED_YEL, OUTPUT);
     pinMode(LED_GRN, OUTPUT);
+#endif /* ENABLE_LED_SUPPORT */
 
     mInitialized = true;
     return 0;
@@ -257,9 +269,11 @@ float SensirionESS::getECO2() const
 
 void SensirionESS::setLedRYG(int r, int y, int g)
 {
+#ifdef ENABLE_LED_SUPPORT
     digitalWrite(LED_RED, r ? HIGH : LOW);
     digitalWrite(LED_YEL, y ? HIGH : LOW);
     digitalWrite(LED_GRN, g ? HIGH : LOW);
+#endif /* #ifdef ENABLE_LED_SUPPORT */
 }
 
 //////////////////////////////////////////////////////////////////////////////
