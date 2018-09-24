@@ -18,9 +18,11 @@ The following is not implemented yet:
 To get started with the ESS, follow the following steps:
 
 1. make sure you have the latest Arduino IDE installed from the [Arduino website](https://www.arduino.cc/en/Main/Software)
-2. download the latest release from our [github release page](https://github.com/Sensirion/arduino-ess/releases).
-3. Start the Arduino IDE
-4. Select menu `"Sketch" > "Include Libraries" > "Add .ZIP Library..."`, and select the library downloaded in step #2
+2. Start the Arduino IDE
+3. Select `"Sketch"` > `"Include Library..."` > `"Manage Libraries..."`
+4. Search for `"Sensirion"`, then select `"arduino-ess"`
+
+The same dialog can also be used to check and install updated versions of the library.
 
 #### Hardware setup
 To use the ESS with an Arduino platform, simply align the pins of the shield with the headers on your Arduino and plug it in. Alternatively, you can use the connector on the back to connect the ESS using cables. This way, the sensors can be located away from the Arduino board.
