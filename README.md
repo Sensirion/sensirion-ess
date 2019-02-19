@@ -5,6 +5,7 @@ Shield (ESS). It supports the following generations:
 
 - Pre-release ESS with SHTC1 and SGPC3
 - Gen 1 ESS with SHTC1 and SGP30  
+- Gen 2 ESS with SHTC3 and SGPC3
 
 ### Limitations:
 The following is not implemented yet:
