@@ -66,7 +66,11 @@ int SensirionESS::initSensors()
     }
 
     if (initSGP() != 0) {
-        setError("Error communicating with SGPC3");
+        if (mProductType == PRODUCT_TYPE_SGPC3) {
+            setError("Error communicating with SGPC3");
+        } else {
+            setError("Error communicating with SGP30");
+        }
         return -2;
     }
 
