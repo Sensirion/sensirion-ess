@@ -172,13 +172,21 @@ int SensirionESS::measureIAQ()
 
     // SGPC3 only has TVOC; SGP30 sends [eco2, tvoc]
     if (mProductType == PRODUCT_TYPE_SGP30) {
-      mECO2 = (uint16_t)(mDataBuf[0] << 8) | mDataBuf[1];
-      if (crc8(mDataBuf+3, 2) != mDataBuf[5]) {
+      if (crc8(mDataBuf, 2) != mDataBuf[2]) {
           setError("CRC mismatch");
           return -4;
       }
+      if (crc8(mDataBuf+3, 2) != mDataBuf[5]) {
+          setError("CRC mismatch");
+          return -5;
+      }
+      mECO2 = (uint16_t)(mDataBuf[0] << 8) | mDataBuf[1];
       mTVOC = (uint16_t)(mDataBuf[3] << 8) | mDataBuf[4];
   } else {
+      if (crc8(mDataBuf, 2) != mDataBuf[2]) {
+          setError("CRC mismatch");
+          return -6;
+      }
       mTVOC = (uint16_t)(mDataBuf[0] << 8) | mDataBuf[1];
   }
 
