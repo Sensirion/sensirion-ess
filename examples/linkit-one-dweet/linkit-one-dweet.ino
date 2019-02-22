@@ -8,10 +8,10 @@
  *
  */
 
- /*
-  * Adapted to use Sensirion Environmental Sensing Shield by
-  * Johannes Winkelmann, jwi@sensirion.com
-  */
+/*
+ * Adapted to use Sensirion Environmental Sensing Shield by
+ * Johannes Winkelmann, jwi@sensirion.com
+ */
 
 #include <LWiFi.h>
 #include <LWiFiClient.h>
@@ -37,9 +37,9 @@ void setup()
 
   Wire.begin();
   if (ess.initSensors() == 0) {
-      Serial.print("init(): success\n");
+    Serial.print("init(): success\n");
   } else {
-      Serial.print("init(): failed\n");
+    Serial.print("init(): failed\n");
   }
 
   // keep retrying until connected to AP

@@ -172,15 +172,15 @@ int SensirionESS::measureIAQ()
 
     // SGPC3 only has TVOC; SGP30 sends [eco2, tvoc]
     if (mProductType == PRODUCT_TYPE_SGP30) {
-      mECO2 = (uint16_t)(mDataBuf[0] << 8) | mDataBuf[1];
-      if (crc8(mDataBuf+3, 2) != mDataBuf[5]) {
-          setError("CRC mismatch");
-          return -4;
-      }
-      mTVOC = (uint16_t)(mDataBuf[3] << 8) | mDataBuf[4];
-  } else {
-      mTVOC = (uint16_t)(mDataBuf[0] << 8) | mDataBuf[1];
-  }
+        mECO2 = (uint16_t)(mDataBuf[0] << 8) | mDataBuf[1];
+        if (crc8(mDataBuf+3, 2) != mDataBuf[5]) {
+            setError("CRC mismatch");
+            return -4;
+        }
+        mTVOC = (uint16_t)(mDataBuf[3] << 8) | mDataBuf[4];
+    } else {
+        mTVOC = (uint16_t)(mDataBuf[0] << 8) | mDataBuf[1];
+    }
 
     return 0;
 }
@@ -226,8 +226,8 @@ int SensirionESS::initSGP()
     uint8_t cmd[CMD_LENGTH] = { 0x20, 0x03 };
 
     if (mProductType == PRODUCT_TYPE_SGPC3) {
-      SGP_INTERMEASURE_DELAY = SGPC3_INTERMEASURE_DELAY;
-      cmd[1] = 0xae;
+        SGP_INTERMEASURE_DELAY = SGPC3_INTERMEASURE_DELAY;
+        cmd[1] = 0xae;
     }
 
     // run init air quality
@@ -330,19 +330,19 @@ int8_t SensirionESS::i2c_write(uint8_t addr, const uint8_t* data, uint16_t count
 
 uint8_t SensirionESS::crc8(const uint8_t* data, uint8_t len)
 {
-  // adapted from SHT21 sample code from http://www.sensirion.com/en/products/humidity-temperature/download-center/
+    // adapted from SHT21 sample code from http://www.sensirion.com/en/products/humidity-temperature/download-center/
 
-  uint8_t crc = 0xff;
-  uint8_t byteCtr;
-  for (byteCtr = 0; byteCtr < len; ++byteCtr) {
-    crc ^= (data[byteCtr]);
-    for (uint8_t bit = 8; bit > 0; --bit) {
-      if (crc & 0x80) {
-        crc = (crc << 1) ^ 0x31;
-      } else {
-        crc = (crc << 1);
-      }
+    uint8_t crc = 0xff;
+    uint8_t byteCtr;
+    for (byteCtr = 0; byteCtr < len; ++byteCtr) {
+        crc ^= (data[byteCtr]);
+        for (uint8_t bit = 8; bit > 0; --bit) {
+            if (crc & 0x80) {
+                crc = (crc << 1) ^ 0x31;
+            } else {
+                crc = (crc << 1);
+            }
+        }
     }
-  }
-  return crc;
+    return crc;
 }
