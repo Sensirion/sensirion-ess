@@ -59,12 +59,12 @@ void setup()
   SerialUSB.println("done!");
 
   if (ess.initSensors() != 0) {
-      SerialUSB.print("Error while initializing sensors: ");
-      SerialUSB.print(ess.getError());
-      SerialUSB.print("\n");
-      while (1) { // loop forever
-        delay(1000);
-      }
+    SerialUSB.print("Error while initializing sensors: ");
+    SerialUSB.print(ess.getError());
+    SerialUSB.print("\n");
+    while (1) { // loop forever
+      delay(1000);
+    }
   }
 
   lastDweetTimestamp = millis() - DWEET_THRESHOLD;
