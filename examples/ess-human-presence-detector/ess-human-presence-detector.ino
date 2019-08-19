@@ -1,7 +1,3 @@
-// this is a minimal version without error checking
-// this is meant purely to exaplain the API, and its use is not recommended
-// to use this in a serious application
-
 #include <sensirion_ess.h>
 
 SensirionESS ess;
