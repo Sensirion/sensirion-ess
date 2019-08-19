@@ -30,7 +30,7 @@ void setup()
   ess.initSensors();
   if (ess.getProductType() != SensirionESS::PRODUCT_TYPE_SGP30) {
     Serial.print("SGP30 is required for this demo. Exiting\n");
-    while (1) delay(1000); // wait foever
+    while (1) delay(1000); // wait forever
   }
   digitalWrite(SensirionESS::LED_YEL, HIGH);
 }
