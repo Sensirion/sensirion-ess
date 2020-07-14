@@ -30,7 +30,7 @@ void setup()
       delay(1000); // wait forever
     }
   }
-  digitalWrite(SensirionESS::LED_YEL, HIGH);
+  digitalWrite(SensirionESSLeds::ARDUINO_UNO_LED_YEL_PIN, HIGH);
 }
 
 void loop() {
@@ -46,13 +46,13 @@ void loop() {
 
   if (measurementCount > SGP_WARMUP_COUNT) {
     if (ess.getECO2() > eco2_threshold) {
-      digitalWrite(SensirionESS::LED_RED, HIGH);
+      digitalWrite(SensirionESSLeds::ARDUINO_UNO_LED_RED_PIN, HIGH);
     } else {
-      digitalWrite(SensirionESS::LED_RED, LOW);
+      digitalWrite(SensirionESSLeds::ARDUINO_UNO_LED_RED_PIN, LOW);
     }
   } else {
     if (measurementCount == SGP_WARMUP_COUNT) {
-      digitalWrite(SensirionESS::LED_YEL, LOW);
+      digitalWrite(SensirionESSLeds::ARDUINO_UNO_LED_YEL_PIN, LOW);
       eco2_threshold = ess.getECO2() * 1.2;
 
       Serial.print("Threshold set at: ");

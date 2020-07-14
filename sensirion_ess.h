@@ -33,6 +33,25 @@
 
 #include <stdint.h>
 
+class SensirionESSLeds
+{
+public:
+    SensirionESSLeds(int redLedPin, int yellowLedPin, int greenLedPin);
+    void setLedRYG(int r, int y, int g);
+
+    const static int SGP_RED_THRESHOLD     = 150;
+    const static int SGP_YEL_THRESHOLD     = 125;
+
+    const static int ARDUINO_UNO_LED_RED_PIN   = 9;
+    const static int ARDUINO_UNO_LED_YEL_PIN   = 10;
+    const static int ARDUINO_UNO_LED_GRN_PIN   = 11;
+
+private:
+    int mRedLedPin    = -1;
+    int mYellowLedPin = -1;
+    int mGreenLedPin  = -1;
+};
+
 class SensirionESS
 {
 public:
@@ -56,13 +75,7 @@ public:
 
     const char* getError() const;
 
-    void setLedRYG(int r, int y, int g);
-
     int remainingWaitTimeMS();
-
-    const static int LED_RED                = 9;
-    const static int LED_YEL                = 10;
-    const static int LED_GRN                = 11;
 
     const static int PRODUCT_TYPE_SGP30    = 0;
     const static int PRODUCT_TYPE_SGPC3    = 1;
@@ -76,7 +89,6 @@ private:
     int readFeatureSetInt();
     int measureRHTInt();
     int initSGP();
-    void setLedRYGInt(int r, int y, int g);
 
     const static int ERROR_BUF_LENGTH       = 255;
     const static int CMD_LENGTH             = 2;
@@ -89,9 +101,6 @@ private:
     const static int SGPC3_DATA_LENGTH      = 3;
     const static int SGP_I2C_ADDR           = 0x58;
     const static int SGP_MEASURE_DELAY      = 50;
-
-    const static int SGP_RED_THRESHOLD     = 150;
-    const static int SGP_YEL_THRESHOLD     = 125;
 
     const static int SGPC3_INTERMEASURE_DELAY = 2000;
     const static int SGP30_INTERMEASURE_DELAY = 1000;
