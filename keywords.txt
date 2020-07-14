@@ -7,6 +7,7 @@
 #######################################
 
 SensirionESS	KEYWORD1
+SensirionESSLeds KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
@@ -33,9 +34,9 @@ remainingWaitTimeMS	KEYWORD2
 #######################################
 # Constants (LITERAL1)
 #######################################
-LED_RED	LITERAL1
-LED_YEL	LITERAL1
-LED_GRN	LITERAL1
+ARDUINO_UNO_LED_RED_PIN	LITERAL1
+ARDUINO_UNO_LED_YEL_PIN	LITERAL1
+ARDUINO_UNO_LED_GRN_PIN	LITERAL1
 
 PRODUCT_TYPE_SGP30	LITERAL1
 PRODUCT_TYPE_SGPC3	LITERAL1
