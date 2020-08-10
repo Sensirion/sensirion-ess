@@ -107,8 +107,8 @@ int SensirionESS::measureRHTInt()
 
     delay(SHT_MEASURE_DELAY);
 
-    int ret = i2c_read(SHT_I2C_ADDR, mDataBuf, SHT_DATA_LENGTH);
-    if (ret == -1) {
+    int error = i2c_read(SHT_I2C_ADDR, mDataBuf, SHT_DATA_LENGTH);
+    if (error) {
         setError("I2C read error");
         return -2;
     }
@@ -200,8 +200,8 @@ int SensirionESS::readFeatureSetInt()
 
     const uint8_t DATA_LEN = 3;
     uint8_t data[DATA_LEN] = { 0 };
-    int ret = i2c_read(SGP_I2C_ADDR, data, DATA_LEN);
-    if (ret == -1) {
+    int error = i2c_read(SGP_I2C_ADDR, data, DATA_LEN);
+    if (error) {
         setError("I2C read error");
         return -3;
     }
